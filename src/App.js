@@ -22,6 +22,16 @@ class BooksApp extends React.Component {
     })
   }
 
+  changeShelf(bookToChange, newShelf) {
+    bookToChange.shelf = newShelf
+    const indexToChange = this.state.books.findIndex((book) => book.id === bookToChange.id)
+    debugger
+    this.setState((state) => ({
+      books: state.books.splice(indexToChange, 1, bookToChange)
+    }))
+    BooksAPI.update(bookToChange, newShelf)    
+  }
+
   render() {
     return (
       <div className="app">
@@ -50,6 +60,9 @@ class BooksApp extends React.Component {
           <div>
             <ListBooks
               books={this.state.books}
+              onShelfChange={(book, newShelf) => {
+                this.changeShelf(book, newShelf)
+              }}
             />
             <div className="open-search">
               <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>

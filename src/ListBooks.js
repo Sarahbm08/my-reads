@@ -29,7 +29,12 @@ class ListBooks extends Component {
 								<div className="bookshelf-books">
 									<ol className="books-grid">																			
 										{this.getBooksFromShelf(bookshelf).map((book) => (
-											<Book book={book} />
+											<Book
+												book={book}
+												bookshelves={bookshelves}
+												onShelfChange={this.props.onShelfChange}
+												key={book.id}
+											/>
 										))}
 									</ol>
 								</div>

@@ -1,8 +1,15 @@
 import React, { Component } from 'react'
+import camelcase from 'camelcase'
 
 class Book extends Component {
+	handleSubmit = (e) => {
+		e.preventDefault()
+		if(this.props.onShelfChange)
+			this.props.onShelfChange(this.props.book, e.target.value)
+	}
+
 	render() {
-		const { book } = this.props
+		const { book, bookshelves } = this.props
 		return (
 			<li key={book.id}>
 				<div className="book">
@@ -10,13 +17,12 @@ class Book extends Component {
 						<div className="book-cover" style={{
 							backgroundImage: `url(${book.imageLinks.thumbnail})`
 						}}/>
-					{/* TODO: Change this so when they select something new it updates the state of books */}
 						<div className="book-shelf-changer">
-							<select>
+							<select value={book.shelf} onChange={this.handleSubmit}>
 								<option value="move" disabled>Move to...</option>
-								<option value="currentlyReading">Currently Reading</option>
-								<option value="wantToRead">Want to Read</option>
-								<option value="read">Read</option>
+								{bookshelves.map((bookshelf) => (
+									<option value={camelcase(bookshelf)} key={bookshelf}>{bookshelf}</option>
+								))}
 								<option value="none">None</option>
 							</select>
 						</div>
