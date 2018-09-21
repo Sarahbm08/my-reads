@@ -9,17 +9,15 @@ class Book extends Component {
 	}
 
 	displayAuthors = (book) => {
-		if(book.authors) //authors exist
-			return book.authors.join(", ")
-		else
-			return ""
+		return book.authors ? book.authors.join(", ") : ""
 	}
 
 	getThumbnail = (book) => {
-		if(book.imageLinks) //thumbnail exists
-			return book.imageLinks.thumbnail
-		else
-			return ""
+		return book.imageLinks ? book.imageLinks.thumbnail : ""
+	}
+
+	getShelf = (book) => {
+		return book.shelf ? book.shelf : "none"
 	}
 
 	render() {
@@ -32,10 +30,13 @@ class Book extends Component {
 							backgroundImage: `url(${this.getThumbnail(book)})`
 						}}/>
 						<div className="book-shelf-changer">
-							<select value={book.shelf} onChange={this.handleSubmit}>
+							<select value={this.getShelf(book)} onChange={this.handleSubmit}>
 								<option value="move" disabled>Move to...</option>
 								{bookshelves.map((bookshelf) => (
-									<option value={camelcase(bookshelf)} key={bookshelf}>{bookshelf}</option>
+									<option
+										value={camelcase(bookshelf)}
+										key={bookshelf}
+									>{bookshelf}</option>
 								))}
 								<option value="none">None</option>
 							</select>

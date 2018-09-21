@@ -13,18 +13,31 @@ class BooksApp extends React.Component {
 
   // load all the books into the books in our state
   componentDidMount() {
+    this.setBooksFromAPI();
+  }
+
+  setBooksFromAPI() {
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
     })
   }
 
   changeShelf(bookToChange, newShelf) {
-    bookToChange.shelf = newShelf
+   /* 
+    const index = this.state.books.findIndex((b) => bookToChange.id === b.id)
+    if(index === -1) {//not in our shelves, we need to add it
+      this.setState((state) => ({
+        books: state.books.concat(state.books[index]) 
+      }))
+    }*/
+
+    //bookToChange.shelf = newShelf
     //const indexToChange = this.state.books.findIndex((book) => book.id === bookToChange.id)
-    this.setState((state) => ({
+    /*this.setState((state) => ({
       books: state.books.map((b) => b.id === bookToChange.id ? bookToChange : b)
-    }))
+    }))*/
     BooksAPI.update(bookToChange, newShelf)
+    this.setBooksFromAPI()
   }
 
   render() {

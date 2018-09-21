@@ -10,7 +10,7 @@ class Search extends React.Component {
 	}
 
 	updateQuery = (query) => {
-		this.setState({ query: query.trim() })
+		this.setState({ query: query })
 		this.searchBooks(query)
 	}
 
@@ -32,8 +32,13 @@ class Search extends React.Component {
 		}
 	}
 
+	findBookInShelves = (books, book) => {
+		const index = books.findIndex((b) => book.id === b.id)
+		return index === -1 ? book : books[index]
+	}
+
 	render() {
-		const { bookshelves, onShelfChange } = this.props
+		const { books, bookshelves, onShelfChange } = this.props
 		const { query, booksFound } = this.state
 		return (
 			<div className="search-books">
@@ -43,12 +48,10 @@ class Search extends React.Component {
             {
             /*
 							TODO:
-								- if book is on shelf already, that shelf should be selected on the search page
-								- accept multiple words delimited by spaces for search
 								- sync books state more with BooksAPI?
-								- invalid queries are handled ... ?
 								- add books to shelves when a shelf is selected from search page
 								- create README
+								- walkthrough: https://www.youtube.com/watch?v=i6L2jLHV9j8&feature=youtu.be
 
               NOTES: The search from BooksAPI is limited to a particular set of search terms.
               You can find these search terms here:
@@ -67,9 +70,9 @@ class Search extends React.Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-						{booksFound.map((book) =>
+						{booksFound.map((book) => 
 							<Book
-								book={book}
+								book={this.findBookInShelves(books, book)}
 								bookshelves={bookshelves}
 								onShelfChange={onShelfChange}
 								key={book.id}
