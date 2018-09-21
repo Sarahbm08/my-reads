@@ -23,19 +23,6 @@ class BooksApp extends React.Component {
   }
 
   changeShelf(bookToChange, newShelf) {
-   /* 
-    const index = this.state.books.findIndex((b) => bookToChange.id === b.id)
-    if(index === -1) {//not in our shelves, we need to add it
-      this.setState((state) => ({
-        books: state.books.concat(state.books[index]) 
-      }))
-    }*/
-
-    //bookToChange.shelf = newShelf
-    //const indexToChange = this.state.books.findIndex((book) => book.id === bookToChange.id)
-    /*this.setState((state) => ({
-      books: state.books.map((b) => b.id === bookToChange.id ? bookToChange : b)
-    }))*/
     BooksAPI.update(bookToChange, newShelf)
     this.setBooksFromAPI()
   }
@@ -47,7 +34,7 @@ class BooksApp extends React.Component {
 
     return (
       <div className="app">
-        <Route exact path='/' render={() => (
+        <Route exact path="/" render={() => (
           <div>
             <ListBooks
               books={this.state.books}
