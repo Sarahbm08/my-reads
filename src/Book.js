@@ -8,6 +8,20 @@ class Book extends Component {
 			this.props.onShelfChange(this.props.book, e.target.value)
 	}
 
+	displayAuthors = (book) => {
+		if(book.authors) //authors exist
+			return book.authors.join(", ")
+		else
+			return ""
+	}
+
+	getThumbnail = (book) => {
+		if(book.imageLinks) //thumbnail exists
+			return book.imageLinks.thumbnail
+		else
+			return ""
+	}
+
 	render() {
 		const { book, bookshelves } = this.props
 		return (
@@ -15,7 +29,7 @@ class Book extends Component {
 				<div className="book">
 					<div className="book-top">
 						<div className="book-cover" style={{
-							backgroundImage: `url(${book.imageLinks.thumbnail})`
+							backgroundImage: `url(${this.getThumbnail(book)})`
 						}}/>
 						<div className="book-shelf-changer">
 							<select value={book.shelf} onChange={this.handleSubmit}>
@@ -28,7 +42,7 @@ class Book extends Component {
 						</div>
 					</div>
 					<div className="book-title">{book.title}</div>
-					<div className="book-authors">{book.authors[0]}</div>
+					<div className="book-authors">{this.displayAuthors(book)}</div>
 				</div>
 			</li>
 		)
