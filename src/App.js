@@ -1,6 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { Route } from 'react-router-dom'
+import { Link, Route } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import ListBooks from './ListBooks'
 import Search from './Search'
@@ -13,18 +12,27 @@ class BooksApp extends React.Component {
 
   // load all the books into the books in our state
   componentDidMount() {
-    this.setBooksFromAPI();
-  }
-
-  setBooksFromAPI() {
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
     })
   }
 
   changeShelf(bookToChange, newShelf) {
+    bookToChange.shelf = newShelf
+
+    // we need to add a new book
+    if(this.state.books.every((b) => b.id !== bookToChange.id)) { 
+      this.setState((state) => ({
+        books: state.books.concat(bookToChange)
+      }))
+    }
+
+    // update one book in our books array
+    this.setState((state) => ({
+      books: state.books.map((b) => b.id === bookToChange.id ? bookToChange : b)
+    }))
+    
     BooksAPI.update(bookToChange, newShelf)
-    this.setBooksFromAPI()
   }
 
   render() {

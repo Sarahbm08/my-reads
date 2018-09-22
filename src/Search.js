@@ -33,8 +33,8 @@ class Search extends React.Component {
 	}
 
 	findBookInShelves = (books, book) => {
-		const index = books.findIndex((b) => book.id === b.id)
-		return index === -1 ? book : books[index]
+		const foundBook = books.find((b) => book.id === b.id)
+		return foundBook ? foundBook : book 
 	}
 
 	render() {
