@@ -26,12 +26,15 @@ class BooksApp extends React.Component {
         books: state.books.concat(bookToChange)
       }))
     }
+    else {
+       // update one book in our books array
+      this.setState((state) => ({
+        books: state.books.map((b) => b.id === bookToChange.id ? bookToChange : b)
+      }))
+    }
 
-    // update one book in our books array
-    this.setState((state) => ({
-      books: state.books.map((b) => b.id === bookToChange.id ? bookToChange : b)
-    }))
-    
+   
+
     BooksAPI.update(bookToChange, newShelf)
   }
 
